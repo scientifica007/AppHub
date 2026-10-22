@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "categories": [
+    { "id": "education", "name": "التعليم والتعلّم", "description": "مساحة للفهم والاكتشاف وتنمية المهارات", "icon": "book", "color": "green" },
+    { "id": "productivity", "name": "الإدارة والإنتاجية", "description": "أدوات تجعل العمل اليومي أكثر تنظيمًا", "icon": "layers", "color": "blue" },
+    { "id": "tools", "name": "الأدوات والخدمات", "description": "حلول عملية تختصر الوقت والجهد", "icon": "tools", "color": "orange" },
+    { "id": "games", "name": "الألعاب والتجارب", "description": "أفكار تفاعلية تجمع المتعة والتحدّي", "icon": "game", "color": "purple" }
+  ],
+  "apps": []
+}

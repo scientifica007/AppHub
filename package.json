@@ -1,0 +1,13 @@
+{
+  "name": "apphub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "بوابة عربية قابلة للتوسع لفهرسة تطبيقات الويب",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f2">
+  <meta name="description" content="AppHub — مساحة واحدة تجمع تطبيقات الويب. اكتشف أدوات التعليم والإنتاجية والألعاب، وابحث عن التطبيق المناسب لك.">
+  <meta property="og:title" content="AppHub — أفكار متعددة. وجهة واحدة.">
+  <meta property="og:description" content="بوابة لاكتشاف تطبيقات الويب، مرتبة حسب مجالاتها، تتوسع مع كل فكرة جديدة.">
+  <meta property="og:type" content="website">
+  <title>AppHub — أفكار متعددة. وجهة واحدة.</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="preload" href="./assets/fonts/regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script src="./assets/theme.js"></script>
+  <script type="module" src="./assets/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#catalog">انتقل إلى التطبيقات</a>
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="AppHub — الرئيسية"><img src="./assets/favicon.svg" alt="" width="38" height="38"><span dir="ltr">App<span class="brand-accent">Hub</span><span class="brand-dot">.</span></span></a>
+      <nav aria-label="التنقل الرئيسي" class="main-nav">
+        <a class="nav-link active" href="#catalog" id="browse-nav">استكشف التطبيقات</a>
+        <button class="nav-link" id="favorites-nav" type="button"><span data-icon="star"></span> المفضلة <span id="favorites-count" class="mini-count">0</span></button>
+        <a class="nav-link about-nav" href="#about">عن AppHub</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="تفعيل الوضع الداكن" title="تبديل المظهر"><span data-icon="moon"></span></button>
+        <a class="manage-link" href="./admin.html"><span data-icon="plus"></span><span>إدارة الفهرس</span></a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <div class="eyebrow"><span class="live-dot"></span> مساحة للأفكار التي تصبح تطبيقات</div>
+        <h1 id="hero-title">أفكار متعددة.<br><span>وجهة واحدة.</span><svg class="headline-mark" viewBox="0 0 220 15" aria-hidden="true"><path d="M4 10Q105-5 215 8M80 13Q140 5 200 10"/></svg></h1>
+        <p class="hero-description">أدوات للعمل، مساحات للتعلّم، وتجارب تستحق الاكتشاف.<br class="desktop-break"> كل التطبيقات في مكان واحد… والبقية تأتي.</p>
+        <div class="hero-actions"><a class="button primary" href="#catalog">استكشف التطبيقات <span data-icon="arrow"></span></a><button class="text-button" id="hero-demo" type="button"><span data-icon="eye"></span> شاهد شكل الفهرس</button></div>
+        <div class="hero-footnote"><span data-icon="globe"></span><span>تطبيقات ويب، مباشرة من متصفحك</span><span class="footnote-separator"></span><span>على الهاتف والحاسوب</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-cross cross-one">+</div><div class="art-cross cross-two">+</div>
+        <div class="art-grid">
+          <div class="art-tile tile-book"><span data-icon="book"></span></div>
+          <div class="art-tile tile-chart"><span data-icon="chart"></span></div>
+          <div class="art-tile tile-code"><span data-icon="code"></span></div>
+          <div class="art-tile tile-atom"><span data-icon="atom"></span></div>
+          <div class="art-tile tile-hub"><img src="./assets/favicon.svg" alt="" width="90" height="90"><b dir="ltr">AppHub</b></div>
+          <div class="art-tile tile-game"><span data-icon="game"></span></div>
+          <div class="art-tile tile-tools"><span data-icon="tools"></span></div>
+          <div class="art-tile tile-file"><span data-icon="file"></span></div>
+          <div class="art-tile tile-plus"><span data-icon="plus"></span></div>
+        </div>
+        <div class="art-caption"><span class="live-dot"></span> أفكارك، في مساحة واحدة <span data-icon="sparkle"></span></div>
+        <div class="art-coordinate" dir="ltr">A SPACE TO CREATE & EXPLORE</div>
+      </div>
+    </section>
+    <section class="category-section container" aria-labelledby="category-heading">
+      <div class="section-kicker"><h2 id="category-heading">لكل اهتمام، مساحة</h2><span>اختر مجالك وابدأ الاكتشاف</span></div>
+      <div class="category-grid" id="category-grid"><div class="loading-line">جارٍ تحميل المجالات…</div></div>
+    </section>
+    <section class="catalog-section container" id="catalog" aria-labelledby="catalog-title">
+      <div class="section-heading"><div><div class="overline" dir="ltr">THE APP COLLECTION</div><h2 id="catalog-title">اكتشف تطبيقك القادم<span class="title-dot">.</span></h2><p id="catalog-subtitle">تصفّح المجموعة، أو ابحث عمّا تحتاجه.</p></div><div class="collection-note"><span data-icon="sparkle"></span> مساحة تنمو مع كل فكرة</div></div>
+      <div id="mode-banner" class="mode-banner" hidden></div>
+      <div class="search-toolbar">
+        <div class="search-wrap"><span data-icon="search"></span><label class="sr-only" for="search">ابحث في التطبيقات</label><input id="search" type="search" placeholder="ابحث عن تطبيق، أداة، أو فكرة…" autocomplete="off" maxlength="200"><kbd aria-hidden="true">/</kbd></div>
+        <label class="select-wrap"><span class="sr-only">حالة التطبيق</span><select id="status-filter" aria-label="حالة التطبيق"><option value="all">كل الحالات</option><option value="available">متاح الآن</option><option value="beta">نسخة تجريبية</option><option value="coming-soon">قريبًا</option></select></label>
+      </div>
+      <div class="filter-toolbar"><div class="filter-chips" id="filter-chips" role="group" aria-label="تصفية حسب المجال"></div><div class="view-controls" role="group" aria-label="طريقة العرض"><button type="button" class="icon-button selected" id="grid-view" aria-label="عرض البطاقات" aria-pressed="true"><span data-icon="grid"></span></button><button type="button" class="icon-button" id="list-view" aria-label="عرض القائمة" aria-pressed="false"><span data-icon="list"></span></button></div></div>
+      <div class="results-toolbar"><div id="results-count" role="status" aria-live="polite">جارٍ تحميل التطبيقات…</div><label class="sort-label" for="sort">الترتيب: <select id="sort"><option value="curated">المميزة أولًا</option><option value="newest">الأحدث إضافة</option><option value="name">حسب الاسم</option></select></label></div>
+      <div class="apps-grid" id="apps-grid" aria-busy="true"></div>
+      <div id="empty-state" class="empty-state" hidden></div>
+      <div id="load-error" class="error-panel" role="alert" hidden></div>
+    </section>
+    <section class="about-section container" id="about" aria-labelledby="about-title">
+      <div class="about-symbol" aria-hidden="true"><span data-icon="grid"></span><span class="symbol-plus">+</span></div>
+      <div class="about-content"><span class="overline" dir="ltr">ALWAYS ROOM FOR ONE MORE</span><h2 id="about-title">كل فكرة جديدة، لها مكان هنا.</h2><p>AppHub بوابة واحدة لمجموعة متجددة من تطبيقات الويب. مساحة تجمع الأدوات والتجارب، وتمنح كل تطبيق عنوانًا واضحًا يسهل الوصول إليه.</p></div>
+      <a class="about-link" href="./admin.html">أضف إلى المجموعة <span data-icon="arrow"></span></a>
+    </section>
+  </main>
+  <footer class="footer container"><a class="brand small" href="./"><img src="./assets/favicon.svg" alt="" width="28" height="28"><span dir="ltr">AppHub<span class="brand-dot">.</span></span></a><p>أفكار تُبنى. تجارب تُكتشف.</p><div><a href="https://github.com/scientifica007/AppHub" target="_blank" rel="noopener noreferrer"><span data-icon="github"></span> GitHub <span class="sr-only">يفتح في علامة تبويب جديدة</span></a><span class="footer-year">© <span id="year">2026</span> AppHub</span></div></footer>
+  <dialog id="app-dialog" class="app-dialog" aria-labelledby="dialog-title"><button class="icon-button dialog-close" type="button" aria-label="إغلاق التفاصيل"><span data-icon="close"></span></button><div id="dialog-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><div class="noscript">يحتاج فهرس AppHub إلى تفعيل JavaScript لعرض التطبيقات والبحث فيها.</div></noscript>
+</body>
+</html>
