@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex"><meta name="theme-color" content="#f8f9f4">
+  <meta name="robots" content="noindex"><meta name="theme-color" content="#15181d">
   <title>إدارة الفهرس — AppHub</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/styles.css"><script src="./assets/theme.js"></script><script type="module" src="./assets/admin.js"></script>
@@ -28,6 +28,7 @@
     <div class="form-field"><label for="app-status">حالة التطبيق</label><select id="app-status" name="status"><option value="available">متاح الآن</option><option value="beta">نسخة تجريبية</option><option value="coming-soon">قريبًا</option></select></div>
     <div class="form-field full"><label for="app-url">رابط التطبيق <span id="url-required" class="required">*</span></label><input id="app-url" name="url" type="url" dir="ltr" maxlength="2000" placeholder="https://…" required><span class="field-help">رابط كامل يبدأ بـ https:// أو http://. يمكن تركه فارغًا عندما تكون الحالة «قريبًا».</span></div>
     <div class="form-field full"><label for="app-description">وصف التطبيق <span class="required">*</span></label><textarea id="app-description" name="description" maxlength="800" required placeholder="ماذا يقدم التطبيق؟ ولمن صُمم؟"></textarea></div>
+    <div class="form-field full"><label for="app-preview-image">رابط صورة المعاينة <span class="field-help">(اختياري)</span></label><input id="app-preview-image" name="previewImage" type="url" dir="ltr" maxlength="2000" placeholder="https://…/preview.webp"><span class="field-help">رابط مباشر لصورة عامة تعرض واجهة تطبيقك. يُفضّل مقاس أفقي بنسبة 2:1. يظهر رسم توضيحي تلقائيًا إن تركته فارغًا أو تعذّر تحميل الصورة.</span></div>
     <div class="form-field full"><label for="app-tags">الكلمات الدالة</label><input id="app-tags" name="tags" maxlength="360" placeholder="تعليم، تنظيم، أدوات"><span class="field-help">حتى 10 كلمات أو عبارات قصيرة، مفصولة بفاصلة عربية أو إنجليزية.</span></div>
     <div class="form-field"><label for="app-icon">الأيقونة</label><select id="app-icon" name="icon"></select></div><div class="form-field"><label for="app-color">لون البطاقة</label><select id="app-color" name="color"></select></div>
     <div class="form-field"><label for="app-date">تاريخ الإضافة</label><input id="app-date" name="addedAt" type="text" dir="ltr" placeholder="dd/mm/yyyy" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required inputmode="numeric"><span class="field-help">اليوم/الشهر/السنة، مثل 22/10/2026.</span></div>

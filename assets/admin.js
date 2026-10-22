@@ -38,9 +38,9 @@ function openApp(id=null, duplicate=false) {
   $('app-category').innerHTML=catalog.categories.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');
   $('app-editor-title').textContent=duplicate?'نسخ تطبيق':app?'تعديل التطبيق':'إضافة تطبيق';
   $('app-title').value=app?(duplicate?`${app.title.slice(0,72)} — نسخة`:app.title):'';
-  $('app-description').value=app?.description || ''; $('app-url').value=app?.url || ''; $('app-tags').value=app?.tags.join('، ') || '';
+  $('app-description').value=app?.description || ''; $('app-url').value=app?.url || ''; $('app-tags').value=app?.tags.join('، ') || ''; $('app-preview-image').value=app?.previewImage || '';
   $('app-category').value=app?.category || catalog.categories[0].id; $('app-status').value=app?.status || 'available';
-  $('app-icon').value=app && Object.hasOwn(ICON_LABELS,app.icon)?app.icon:'grid'; $('app-color').value=app?.color || 'green';
+  $('app-icon').value=app && Object.hasOwn(ICON_LABELS,app.icon)?app.icon:'grid'; $('app-color').value=app?.color || 'sand';
   $('app-date').value=formatDate(app?.addedAt || localDate()); $('app-order').value=app?.order ?? (catalog.apps.length?Math.max(...catalog.apps.map(a=>a.order))+1:0);
   $('app-featured').checked=app?.featured || false; $('app-visible').checked=duplicate?false:app?.visible ?? true;
   formDirty=false; syncStatus(); previewCard(); $('app-editor').showModal(); $('app-title').focus();
@@ -61,6 +61,7 @@ $('app-form').addEventListener('submit',e=>{
   const date=$('app-date').value.split('/').reverse().join('-');
   const app={id:editingApp || uniqueID('app'),title:$('app-title').value.trim(),description:$('app-description').value.trim(),category:$('app-category').value,url:$('app-url').value.trim(),status:$('app-status').value,icon:$('app-icon').value,color:$('app-color').value,tags:$('app-tags').value.split(/[,،]/).map(t=>t.trim()).filter(Boolean),featured:$('app-featured').checked,visible:$('app-visible').checked,addedAt:date,order:Number($('app-order').value)};
   const next=clone(catalog);const index=next.apps.findIndex(a=>a.id===app.id);if(index<0)next.apps.push(app);else next.apps[index]=app;
+  const previewImage=$('app-preview-image').value.trim();if(previewImage)app.previewImage=previewImage;
   try{validateCatalog(next);catalog=next;formDirty=false;persist();render();$('app-editor').close();toast(draftSaved?'حُفظ التطبيق في المسودة.':'التطبيق جاهز؛ صدّر الفهرس لحفظه.');}
   catch(error){$('app-errors').hidden=false;$('app-errors').textContent=error.message;$('app-errors').scrollIntoView({block:'center'});}
 });

@@ -12,6 +12,11 @@ test('production catalog is valid and independent of demonstration data',()=>{va
 test('available and beta entries require an http(s) URL; upcoming entries can omit it',()=>{const c=fixture();validateCatalog(c);c.apps[0].url='';assert.throws(()=>validateCatalog(c),/رابط/);c.apps[0].status='coming-soon';validateCatalog(c);});
 test('rejects executable URLs, embedded credentials and relative links',()=>{for(const u of ['javascript:alert(1)','data:text/html,x','//example.com','/relative','https://user:pass@example.com','file:///tmp/test'])assert.equal(safeURL(u),'');assert.equal(safeURL('https://example.com/a?q=1'),'https://example.com/a?q=1');});
 test('untrusted titles and descriptions are escaped for HTML',()=>{assert.equal(escapeHTML('<img src=x onerror="alert(1)">'), '&lt;img src=x onerror=&quot;alert(1)&quot;&gt;');});
+test('optional preview images preserve old catalogs and reject unsafe or malformed sources',()=>{
+  const c=fixture();validateCatalog(c);
+  for(const value of ['', 'https://example.com/preview.webp']){c.apps[0].previewImage=value;validateCatalog(c);}
+  for(const value of ['javascript:alert(1)','data:image/svg+xml,x','https://user:secret@example.com/x.png',{},17]){c.apps[0].previewImage=value;assert.throws(()=>validateCatalog(c),/صورة المعاينة/);}
+});
 test('category and app identifiers must be unique and safe',()=>{let c=fixture();c.apps[1].id=c.apps[0].id;assert.throws(()=>validateCatalog(c),/مكرر/);c=fixture();c.categories[1].id=c.categories[0].id;assert.throws(()=>validateCatalog(c),/مكرر/);c=fixture();c.apps[0].id='x" onclick="alert(1)';assert.throws(()=>validateCatalog(c),/المعرّف/);});
 test('rejects unknown categories and unsafe color or icon values',()=>{for(const [key,value] of [['category','nonexistent'],['color','x" onclick="x'],['icon','<svg>'],['status','other']]){const c=fixture();c.apps[0][key]=value;assert.throws(()=>validateCatalog(c));}});
 test('rejects invalid calendar dates, text booleans and invalid order',()=>{for(const [key,value] of [['addedAt','2026-02-31'],['addedAt','22/10/2026'],['visible','false'],['featured',1],['order',-1],['order',1.5]]){const c=fixture();c.apps[0][key]=value;assert.throws(()=>validateCatalog(c));}});

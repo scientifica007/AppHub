@@ -41,6 +41,7 @@ export function validateCatalog(data) {
     if (!ids.has(app.category)) errors.push(`${tag}: المجال غير موجود.`);
     if (!Object.hasOwn(STATUS, app.status)) errors.push(`${tag}: الحالة غير مدعومة.`);
     if (typeof app.url !== 'string' || (app.url && (!safeURL(app.url) || app.url.length > 2000)) || (!app.url && app.status !== 'coming-soon')) errors.push(`${tag}: أدخل رابط http أو https؛ يُسمح بتركه فارغًا للتطبيق القادم فقط.`);
+    if (app.previewImage !== undefined && (typeof app.previewImage !== 'string' || app.previewImage.length > 2000 || (app.previewImage && !safeURL(app.previewImage)))) errors.push(`${tag}: صورة المعاينة يجب أن تكون رابط http أو https صالحًا، أو حقلًا فارغًا.`);
     if (!Object.hasOwn(COLORS, app.color) || !iconNames.includes(app.icon)) errors.push(`${tag}: اللون أو الأيقونة غير مدعوم.`);
     if (typeof app.featured !== 'boolean' || typeof app.visible !== 'boolean') errors.push(`${tag}: featured وvisible يجب أن يكونا true أو false.`);
     if (!Array.isArray(app.tags) || app.tags.length > 10 || app.tags.some(t => !text(t, 35))) errors.push(`${tag}: الوسوم يجب أن تكون قائمة لا تتجاوز 10 وسوم قصيرة.`);

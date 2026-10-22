@@ -1,4 +1,7 @@
 const paths = {
+  heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="m16 8-2 6-6 2 2-6 6-2Z"/>',
+  menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
   grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="3.5"/>',
   search: '<circle cx="10.8" cy="10.8" r="7.5"/><path d="m16.5 16.5 4.5 4.5"/>',
   arrow: '<path d="M19 12H5m6-6-6 6 6 6"/>',
