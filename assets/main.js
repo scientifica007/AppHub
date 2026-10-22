@@ -67,7 +67,7 @@ function syncURL() {
   if (!state.explore && !state.favoriteOnly) p.set('section', 'all');
   history.replaceState(null, '', `${location.pathname}${p.size ? '?' + p : ''}${location.hash}`);
 }
-function apps() { return mode === 'demo' ? DEMO_APPS.filter(a => catalog.categories.some(c => c.id === a.category)) : catalog.apps; }
+function apps() { return mode === 'demo' ? [...catalog.apps, ...DEMO_APPS.filter(a => catalog.categories.some(c => c.id === a.category) && !catalog.apps.some(real => real.id === a.id))] : catalog.apps; }
 function favoriteKey() { return mode === 'demo' ? 'apphub:demo-favorites' : 'apphub:favorites'; }
 function readFavorites() {
   const saved = storage.get(favoriteKey(), []);
@@ -136,7 +136,7 @@ function render() {
   $('collection-label').textContent = mode === 'demo' ? 'نماذج للعرض' : mode === 'preview' ? 'مسودة محلية' : 'الفهرس المنشور';
   $('mode-banner').hidden = mode === 'public';
   $('mode-banner').innerHTML = mode === 'demo'
-    ? `${icon('info')}<div><strong>أمثلة لتجربة مساحة العمل.</strong> هذه نماذج توضيحية وليست تطبيقات منشورة.</div><button type="button" id="exit-mode">الفهرس الحقيقي ${icon('close')}</button>`
+    ? `${icon('info')}<div><strong>أمثلة لتجربة مساحة العمل.</strong> تظهر التطبيقات المنشورة هنا إلى جانب نماذج توضيحية غير قابلة للتشغيل.</div><button type="button" id="exit-mode">الفهرس الحقيقي ${icon('close')}</button>`
     : `${icon('eye')}<div><strong>معاينة مسودتك المحلية.</strong> هذه التعديلات لم تُنشر للزوار بعد.</div><a href="./admin.html">العودة إلى المحرر ${icon('arrow')}</a>`;
   $('hero-demo').innerHTML = `${icon('eye')}<span>${mode === 'demo' ? 'الفهرس الحقيقي' : mode === 'preview' ? 'الفهرس المنشور' : 'جرّب أمثلة العرض'}</span>`;
   $('results-count').textContent = `النتائج: ${found.length}${found.length !== visible.length ? ` من ${visible.length}` : ''}`;

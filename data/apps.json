@@ -1,10 +1,55 @@
 {
   "schemaVersion": 1,
   "categories": [
-    { "id": "education", "name": "التعليم والتعلّم", "description": "مساحة للفهم والاكتشاف وتنمية المهارات", "icon": "book", "color": "green" },
-    { "id": "productivity", "name": "الإدارة والإنتاجية", "description": "أدوات تجعل العمل اليومي أكثر تنظيمًا", "icon": "layers", "color": "blue" },
-    { "id": "tools", "name": "الأدوات والخدمات", "description": "حلول عملية تختصر الوقت والجهد", "icon": "tools", "color": "orange" },
-    { "id": "games", "name": "الألعاب والتجارب", "description": "أفكار تفاعلية تجمع المتعة والتحدّي", "icon": "game", "color": "purple" }
+    {
+      "id": "education",
+      "name": "التعليم والتعلّم",
+      "description": "مساحة للفهم والاكتشاف وتنمية المهارات",
+      "icon": "book",
+      "color": "green"
+    },
+    {
+      "id": "productivity",
+      "name": "الإدارة والإنتاجية",
+      "description": "أدوات تجعل العمل اليومي أكثر تنظيمًا",
+      "icon": "layers",
+      "color": "blue"
+    },
+    {
+      "id": "tools",
+      "name": "الأدوات والخدمات",
+      "description": "حلول عملية تختصر الوقت والجهد",
+      "icon": "tools",
+      "color": "orange"
+    },
+    {
+      "id": "games",
+      "name": "الألعاب والتجارب",
+      "description": "أفكار تفاعلية تجمع المتعة والتحدّي",
+      "icon": "game",
+      "color": "purple"
+    }
   ],
-  "apps": []
+  "apps": [
+    {
+      "id": "miqat-hijri-calendar",
+      "title": "مِيقَات — التقويم الهجري",
+      "description": "مساحة عربية لتنظيم المواعيد والمهام بالتقويم الهجري أساسًا، مع التاريخ الميلادي مرجعًا ثانويًا، ومتابعة مصادر رؤية الأهلة وتوثيق بدايات الأشهر.",
+      "category": "productivity",
+      "url": "https://scientifica007.github.io/Hidjri_Calendar/",
+      "status": "beta",
+      "icon": "clock",
+      "color": "sand",
+      "tags": [
+        "تقويم هجري",
+        "مهام ومواعيد",
+        "مطالع الأهلة",
+        "تذكيرات"
+      ],
+      "featured": true,
+      "visible": true,
+      "addedAt": "2026-10-22",
+      "order": 0
+    }
+  ]
 }
