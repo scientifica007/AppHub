@@ -31,6 +31,6 @@ if (!archivePage.includes('src="./src/archive.mjs"') || !archivePage.includes('i
 const speechModule=await readFile(new URL('afkary/src/speech.mjs',root),'utf8');
 const ledgerModule=await readFile(new URL('afkary/src/speech-ledger.mjs',root),'utf8');
 const afkaryHome=await readFile(new URL('afkary/index.html',root),'utf8');
-if(speechModule.length<3500||ledgerModule.length<1600||!speechModule.includes("from './speech-ledger.mjs'"))throw Error('Afkary speech assets incomplete; refusing AppHub deployment');
-if(!afkaryHome.includes('src/app.mjs?v=0.4.1')||!afkaryHome.includes('id="dictate-button"'))throw Error('Afkary entrypoint inconsistent with speech release');
+if(speechModule.length<8500||ledgerModule.length<1600||!speechModule.includes("from './speech-buffer.mjs'")||!speechModule.includes('recognition.interimResults=false'))throw Error('Afkary reviewed speech assets incomplete; refusing AppHub deployment');
+if(!afkaryHome.includes('src/app.mjs?v=0.4.2')||!afkaryHome.includes('id="dictate-button"'))throw Error('Afkary entrypoint inconsistent with speech release');
 console.log(`AppHub checks passed: ${catalog.categories.length} categories, ${catalog.apps.length} published apps; local assets and Arabic pages valid.`);
