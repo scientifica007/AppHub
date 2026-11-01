@@ -10,6 +10,9 @@ for(const page of ['index.html','admin.html']) {
   for(const m of html.matchAll(/(?:src|href)="\.\/([^"?#]+)(?:[?#][^"]*)?"/g)) await access(new URL(m[1],root));
 }
 for(const asset of ['afkary/index.html','afkary/list.html','afkary/favicon.svg','afkary/styles.css','afkary/src/app.mjs','afkary/src/list.mjs','afkary/src/time.mjs','afkary/src/workspace.mjs','afkary/src/core.mjs','afkary/src/store.mjs']) await access(new URL(asset,root));
+for(const extra of ['afkary/src/speech-buffer.mjs','afkary/docs/SPEECH_DICTATION_UX_042.md']) await access(new URL(extra,root));
+const voice=await readFile(new URL('afkary/src/speech.mjs',root),'utf8');
+if(voice.length<8500 || !voice.includes('recognition.interimResults=false') || !voice.includes('input.insertAdjacentElement'))throw new Error('Afkary dictation module incomplete.');
 for(const font of ['regular','medium','bold'])await access(new URL(`assets/fonts/${font}.ttf`,root));
 await access(new URL('assets/fonts/OFL.txt',root));
 

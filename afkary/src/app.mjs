@@ -4,7 +4,7 @@ import { initTheme } from './theme.mjs';
 import { formatSavedAt, timestampDescription } from './time.mjs';
 import { initWorkspace } from './workspace.mjs';
 import { projectIdeas, personalCategoryName, folderName } from './model.mjs';
-import { installSpeech } from './speech.mjs';
+import { installSpeech } from './speech.mjs?v=0.4.2';
 
 const $ = id => document.getElementById(id);
 const state = { db: null, entries: [], annotations: [], items: [], selectedId: null, view: 'all', category: 'all', query: '', invalidIds: new Set(), collections:[], snapshot:null };
@@ -173,7 +173,8 @@ async function changeAnnotation(idea,changes) {
   catch(e){message(e.message||'تعذّر الحفظ.',true);}
 }
 async function saveNewIdea() {
-  if ($('dictate-button').getAttribute('aria-pressed')==='true') { message('أوقف الإملاء الصوتي أولًا ثم راجع النص قبل الحفظ.',true); return; }
+  if ($('dictate-button').getAttribute('aria-pressed')==='true') { message('أوقف الاستماع وراجع مسودة الإملاء ثم أدرجها قبل حفظ الفكرة.',true); return; }
+  if ($('dictate-button').dataset.pending==='true') {message('توجد مسودة إملاء لم تُدرج بعد. راجعها ثم أدرجها قبل الحفظ.',true);return;}
   const button=$('save-button');const raw=$('idea-input').value;
   button.disabled=true;
   try {
@@ -203,7 +204,8 @@ async function handleImport(file) {
 }
 function bindEvents() {
   $('idea-input').addEventListener('input',updateCharCount);
-  installSpeech({input:$('idea-input'),button:$('dictate-button'),status:$('dictate-status'),onInput:updateCharCount,onState:active=>{$('save-button').disabled=active;}});
+  const stopSpeech=installSpeech({input:$('idea-input'),button:$('dictate-button'),status:$('dictate-status'),onInput:updateCharCount,onState:active=>{$('save-button').disabled=active;}});
+  window.addEventListener('beforeunload',event=>{if(stopSpeech.hasPendingTranscript?.()){event.preventDefault();event.returnValue='';}});
   $('create-collection').addEventListener('click',async()=>{try{const item=await createCollection(state.db,$('collection-type').value,$('collection-name').value);$('collection-name').value='';await refresh();$('collection-status').textContent=`تم إنشاء: ${item.name}`;message('أُضيف التنظيم الشخصي دون تغيير التصنيف الافتراضي.');}catch(e){message(e.message,true);}});
   $('save-button').addEventListener('click',saveNewIdea);
   $('search').addEventListener('input',event=>{state.query=event.target.value;render();});
