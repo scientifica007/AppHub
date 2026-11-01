@@ -9,6 +9,7 @@ for(const page of ['index.html','admin.html']) {
   if(new Set(ids).size!==ids.length) throw new Error(`${page}: Duplicate HTML IDs.`);
   for(const m of html.matchAll(/(?:src|href)="\.\/([^"?#]+)(?:[?#][^"]*)?"/g)) await access(new URL(m[1],root));
 }
+for(const asset of ['afkary/index.html','afkary/favicon.svg','afkary/styles.css','afkary/src/app.mjs','afkary/src/core.mjs','afkary/src/store.mjs']) await access(new URL(asset,root));
 for(const font of ['regular','medium','bold'])await access(new URL(`assets/fonts/${font}.ttf`,root));
 await access(new URL('assets/fonts/OFL.txt',root));
 console.log(`AppHub checks passed: ${catalog.categories.length} categories, ${catalog.apps.length} published apps; local assets and Arabic pages valid.`);

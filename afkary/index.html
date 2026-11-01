@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12151b">
+  <meta name="description" content="أفكاري: احتفظ بأفكارك كما كتبتها، واكتشف موضوعاتها والروابط وآفاق تطويرها دون تعديل الأصل.">
+  <title>أفكاري — مساحة التفكير الحر</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./src/app.mjs" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#idea-input">انتقل إلى تسجيل فكرة</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="التنقل">
+      <a class="brand" href="./"><span class="brand-symbol" aria-hidden="true">✳</span><span><strong>أفكاري</strong><small>مساحة التفكير الحر</small></span></a>
+      <div class="sidebar-group-label">مساحة العمل</div>
+      <nav class="main-nav" aria-label="أقسام الأفكار">
+        <button class="nav-link active" type="button" data-view="all"><span class="nav-icon">▤</span> كل الأفكار <span id="nav-all-count" class="nav-count">0</span></button>
+        <button class="nav-link" type="button" data-view="favorites"><span class="nav-icon">☆</span> المميّزة</button>
+        <button class="nav-link" type="button" data-view="connected"><span class="nav-icon">⤨</span> أفكار مترابطة</button>
+      </nav>
+      <div class="sidebar-group-label topics-heading">الموضوعات المستنتجة</div>
+      <nav class="topic-nav" id="topic-nav" aria-label="تصفية حسب الموضوع"></nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-indicator"><span class="privacy-mark"></span><strong>خصوصية محلية</strong><small>لا تُرسل أفكارك إلى خادم</small></div>
+        <a href="https://scientifica007.github.io/AppHub/" class="hub-link">↗ العودة إلى AppHub</a>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="page-header">
+        <div><div class="eyebrow">WORKSPACE / 01</div><h1>كل فكرة تستحق أن تُحفظ.</h1><p>اكتب دون ترتيب أو تنقيح. سنترك الأصل كما هو، وننظّم ما حوله.</p></div>
+        <div class="header-actions"><button type="button" class="button secondary" id="import-button">استيراد نسخة</button><button type="button" class="button secondary" id="export-button">تصدير نسخة</button><input type="file" accept="application/json,.json" id="import-file" hidden></div>
+      </header>
+      <section class="composer surface" aria-labelledby="capture-title">
+        <div class="surface-label"><span class="accent-dot"></span> مساحة الالتقاط <span class="muted-label">01 / الفكرة الخام</span></div>
+        <h2 id="capture-title">ما الذي يدور في ذهنك؟</h2>
+        <label for="idea-input" class="sr-only">نص الفكرة الخام</label>
+        <textarea id="idea-input" maxlength="100000" placeholder="اكتب الفكرة كما تأتيك... حتى لو كانت غير مكتملة، متناقضة، أو مجرد سؤال. لن نغيّر كلمة واحدة." rows="5" spellcheck="false"></textarea>
+        <div class="composer-footer"><div class="immutable-info">◈ يُحفَظ النص حرفيًا عند الضغط على «احفظ الفكرة». لا يمكن تعديله لاحقًا.</div><div class="composer-controls"><span id="char-count">0 حرف</span><button type="button" class="button primary" id="save-button">+ احفظ الفكرة</button></div></div>
+      </section>
+      <section class="overview" aria-label="إحصاءات أفكارك">
+        <div class="metric"><span class="metric-label">الأفكار المحفوظة</span><strong id="stat-total">0</strong><span class="metric-hint">نصوص أصلية محفوظة</span></div>
+        <div class="metric"><span class="metric-label">الموضوعات</span><strong id="stat-topics">0</strong><span class="metric-hint">تصنيف آلي محلي</span></div>
+        <div class="metric"><span class="metric-label">الروابط المكتشفة</span><strong id="stat-links">0</strong><span class="metric-hint">تشابه الكلمات والمجالات</span></div>
+      </section>
+      <section class="library-section" aria-labelledby="library-title">
+        <div class="section-header"><div><span class="eyebrow">ARCHIVE / 02</span><h2 id="library-title">أرشيف الأفكار</h2></div><div class="search-wrap"><span aria-hidden="true">⌕</span><label for="search" class="sr-only">ابحث في الأفكار</label><input id="search" type="search" placeholder="ابحث في أفكارك…" autocomplete="off"></div></div>
+        <div class="workspace-panels">
+          <div class="list-panel surface"><div class="panel-heading"><span id="list-heading">كل الأفكار</span><span id="result-count" aria-live="polite">0</span></div><div id="ideas-list" class="ideas-list"></div></div>
+          <article class="detail-panel surface" id="idea-detail" aria-live="polite"><div class="empty-detail"><div class="empty-symbol">✳</div><h3>مساحة جديدة للتفكير</h3><p>احفظ فكرةً في الأعلى، وستظهر هنا نسختها الأصلية وتصنيفها والآفاق المقترحة لتطويرها.</p></div></article>
+        </div>
+      </section>
+      <footer class="app-footer"><span>أفكاري · النص الأصلي مستقل عن كل تفسير</span><span>نسخة تجريبية محلية — 2026</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">تفعيل JavaScript مطلوب لإدارة الأفكار في متصفحك.</p></noscript>
+</body>
+</html>
