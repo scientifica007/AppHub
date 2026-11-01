@@ -1,6 +1,6 @@
 import { CATEGORIES, categoryName } from './core.mjs';
 import { orderIdeas, firstSignificantLetter } from './order.mjs';
-import { openDatabase,readAll,sha256,moveToTrash,restoreIdea,deletePermanently } from './store.mjs';
+import { openDatabase,readAll,sha256,moveToTrash,restoreIdea,deletePermanently,addComment,addRevision } from './store.mjs';
 import { projectIdeas,ideaMatches,personalCategoryName,folderName } from './model.mjs';
 import { initTheme } from './theme.mjs';
 import { formatSavedAt } from './time.mjs';
@@ -52,7 +52,25 @@ function showIdea(idea){
    try{await moveToTrash(state.db,idea.id);$('archive-dialog').close();await refresh();toast('نُقلت الفكرة إلى السلة.');}catch(e){toast(e.message);}
   });actions.append(trash);
  }
- $('archive-dialog').showModal();
+ if(state.scope==='active'){
+   const all=el('section','archive-comments');all.append(el('h3','','التعقيبات والمراجعات'));
+   for(const c of idea.comments){const item=el('div','comment-item');item.append(el('time','muted',formatSavedAt(c.createdAt)),el('p','',c.text));all.append(item);}
+   const comment=el('textarea','notes-input');comment.rows=2;comment.maxLength=20000;comment.placeholder='اكتب تعليقًا أو تعقيبًا على الفكرة…';
+   const add=el('button','button secondary small','حفظ التعقيب');add.type='button';
+   add.addEventListener('click',async()=>{try{await addComment(state.db,idea.id,comment.value);await refresh();showIdea(state.items.find(x=>x.id===idea.id));toast('حُفظ التعقيب منفصلًا.');}catch(e){toast(e.message);}});
+   all.append(comment,add);
+   const edit=el('details','edit-disclosure');edit.append(el('summary','','تحرير نسخة معدلة مع الاحتفاظ بالأصل'));
+   const textarea=el('textarea','notes-input');textarea.rows=5;textarea.maxLength=100000;textarea.value=idea.raw;
+   const save=el('button','button secondary small','حفظ مراجعة جديدة');save.type='button';
+   save.addEventListener('click',async()=>{
+     if(!globalThis.confirm('تأكيد إنشاء مراجعة جديدة؟ سيبقى النص الأصلي وكل المراجعات السابقة محفوظًا.'))return;
+     try{await addRevision(state.db,idea.id,textarea.value);await refresh();showIdea(state.items.find(x=>x.id===idea.id));toast('حُفظت المراجعة الجديدة، والأصل محفوظ.');}catch(e){toast(e.message);}
+   });
+   edit.append(el('p','muted','لن يتغير النص الأصلي، بل ستُنشأ مراجعة مستقلة.'),textarea,save);all.append(edit);
+   if(idea.revisionCount){const history=el('details','original-history');history.append(el('summary','','عرض النسخة الأصلية والمراجعات السابقة'),el('pre','modal-raw',idea.originalRaw));for(const version of idea.revisions){const previous=el('details','history-revision');previous.append(el('summary','',`المراجعة ${version.number} · ${formatSavedAt(version.createdAt)}`),el('pre','modal-raw',version.raw));history.append(previous);}all.append(history);}
+   actions.append(all);
+ }
+ if(!$('archive-dialog').open)$('archive-dialog').showModal();
 }
 function makeCard(idea,index){
  const isVertical=state.layout==='vertical',card=el(isVertical?'article':'button',isVertical?'vertical-idea archive-card':'gallery-card archive-card');
