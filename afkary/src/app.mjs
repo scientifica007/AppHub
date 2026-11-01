@@ -1,6 +1,8 @@
 import { CATEGORIES, categoryName, deriveIndex, relatedIdeas, searchIdeas, suggestDirections } from './core.mjs';
 import { openDatabase, createIdea, readAll, saveAnnotation, exportArchive, importArchive, sha256 } from './store.mjs';
 import { initTheme } from './theme.mjs';
+import { formatSavedAt, timestampDescription } from './time.mjs';
+import { initWorkspace } from './workspace.mjs';
 
 const $ = id => document.getElementById(id);
 const state = { db: null, entries: [], annotations: [], items: [], selectedId: null, view: 'all', category: 'all', query: '', invalidIds: new Set() };
@@ -11,11 +13,7 @@ const element = (tag, className = '', text = '') => {
   return node;
 };
 const append = (parent, ...children) => { parent.append(...children); return parent; };
-const titleFormat = iso => {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return '';
-  return `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()}`;
-};
+const titleFormat = formatSavedAt;
 let toastTimer;
 function message(value, isError=false) {
   const node=$('toast'); node.textContent=value; node.classList.toggle('error',isError); node.classList.add('visible');
@@ -75,6 +73,7 @@ function renderList(items) {
   }
   for(const idea of items) {
     const button=element('button',`idea-card ${state.selectedId===idea.id?'selected':''}`);button.type='button';button.setAttribute('aria-pressed',String(state.selectedId===idea.id));
+    button.title=timestampDescription(idea.createdAt);
     append(button,element('span','idea-card-date',titleFormat(idea.createdAt)),element('strong','idea-card-title',idea.title),element('span','idea-card-preview',idea.preview));
     const foot=element('div','idea-card-foot');foot.append(element('span','category-pill',categoryName(idea.category)));
     if(idea.favorite) foot.append(element('span','favorite-mark','★'));
@@ -94,7 +93,7 @@ function renderDetail() {
   starred.addEventListener('click',()=>changeAnnotation(idea,{favorite:!idea.favorite}));
   top.append(marker,starred);host.append(top);
   host.append(element('h3','detail-title',idea.title));
-  host.append(element('p','detail-date',`تاريخ الالتقاط: ${titleFormat(idea.createdAt)} · محفوظة دون تعديل`));
+  host.append(element('p','detail-date',`تاريخ ووقت الالتقاط: ${titleFormat(idea.createdAt)} · محفوظة دون تعديل`));
   const rawBox=element('section','raw-box');
   append(rawBox,element('div','block-heading','النص الأصلي كما كُتب'),element('pre','raw-text',idea.raw));
   rawBox.append(element('div','immutable-caption','◈ نسخة أصلية للقراءة فقط — دون تصحيح أو إعادة صياغة'));
@@ -183,6 +182,7 @@ function bindEvents() {
 }
 async function start() {
   initTheme();
+  initWorkspace();
   bindEvents();
   try {
     state.db=await openDatabase();
