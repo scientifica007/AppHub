@@ -13,18 +13,16 @@ for(const asset of ['afkary/index.html','afkary/list.html','afkary/favicon.svg',
 for(const font of ['regular','medium','bold'])await access(new URL(`assets/fonts/${font}.ttf`,root));
 await access(new URL('assets/fonts/OFL.txt',root));
 
-const galleryModule=await readFile(new URL('afkary/src/gallery.mjs',root),'utf8');
-const galleryPage=await readFile(new URL('afkary/gallery.html',root),'utf8');
-if (galleryModule.length < 4500) throw new Error('Afkary gallery module is truncated. Refusing to deploy AppHub.');
+const archiveModule=await readFile(new URL('afkary/src/archive.mjs',root),'utf8');
+const archivePage=await readFile(new URL('afkary/archive.html',root),'utf8');
+if(archiveModule.length < 7000) throw new Error('Afkary archive module appears truncated. Refusing to deploy.');
 for (const marker of [
-  "from './core.mjs'", "from './order.mjs'", "from './store.mjs'",
-  "from './theme.mjs'", "from './time.mjs'",
-  'function render()', 'function showDetail(id)', 'function bind()',
-  'async function start()', 'initTheme();bind();', 'start();'
+  "from './store.mjs'", 'async function refresh()', 'function showIdea(idea)',
+  'function render()', 'function bind()', 'restoreIdea', 'deletePermanently', 'start();'
 ]) {
-  if (!galleryModule.includes(marker)) throw new Error('Afkary gallery is missing required code: ' + marker);
+  if (!archiveModule.includes(marker)) throw new Error('Afkary archive is missing: ' + marker);
 }
-if (!/src="\.\/src\/gallery\.mjs(?:\?[^"]*)?"/.test(galleryPage)) {
-  throw new Error('Afkary gallery page does not load its verified module.');
+if (!archivePage.includes('src="./src/archive.mjs"') || !archivePage.includes('id="view-grid"')) {
+  throw new Error('Afkary unified archive page is incomplete.');
 }
 console.log(`AppHub checks passed: ${catalog.categories.length} categories, ${catalog.apps.length} published apps; local assets and Arabic pages valid.`);

@@ -20,12 +20,13 @@
         <button class="nav-link active" type="button" data-view="all"><span class="nav-icon">▤</span> كل الأفكار <span id="nav-all-count" class="nav-count">0</span></button>
         <button class="nav-link" type="button" data-view="favorites"><span class="nav-icon">☆</span> المميّزة</button>
         <button class="nav-link" type="button" data-view="connected"><span class="nav-icon">⤨</span> أفكار مترابطة</button>
-        <a class="nav-link" href="./gallery.html"><span class="nav-icon">▰</span> المعرض الأفقي <span class="nav-icon">↗</span></a><a class="nav-link" href="./list.html"><span class="nav-icon">≡</span> القائمة العمودية <span class="nav-icon">↗</span></a>
+        <a class="nav-link" href="./archive.html"><span class="nav-icon">▦</span> الأرشيف · 3 طرق عرض <span class="nav-icon">↗</span></a>
+        <a class="nav-link" href="./archive.html?view=trash"><span class="nav-icon">♻</span> سلة المهملات <span class="nav-icon">↗</span></a>
       </nav>
       <div class="sidebar-group-label topics-heading">الموضوعات المستنتجة</div>
       <nav class="topic-nav" id="topic-nav" aria-label="تصفية حسب الموضوع"></nav>
       <div class="sidebar-bottom">
-        <div class="privacy-indicator"><span class="privacy-mark"></span><strong>خصوصية محلية</strong><small>لا تُرسل أفكارك إلى خادم</small></div>
+        <div class="privacy-indicator"><span class="privacy-mark"></span><strong>خصوصية محلية</strong><small>أفكارك محفوظة محليًا؛ الإملاء قد يستخدم خدمة المتصفح</small></div>
         <a href="https://scientifica007.github.io/AppHub/" class="hub-link">↗ العودة إلى AppHub</a>
       </div>
     </aside>
@@ -37,7 +38,7 @@
           <div class="theme-holder"><button type="button" class="button secondary theme-toggle" id="theme-toggle" aria-expanded="false" aria-controls="theme-picker">◐ الثيمات</button>
             <div class="theme-picker" id="theme-picker" hidden><span class="theme-picker-title">المظهر والخلفيات</span><button type="button" data-theme-pick="charcoal"><span class="theme-swatch charcoal"></span><span><b>فحمي</b><small>هدوء وتركيز</small></span></button><button type="button" data-theme-pick="paper"><span class="theme-swatch paper"></span><span><b>ورقي</b><small>سطح مضيء للقراءة</small></span></button><button type="button" data-theme-pick="twilight"><span class="theme-swatch twilight"></span><span><b>شفق</b><small>آفاق صحراوية</small></span></button><button type="button" data-theme-pick="cosmos"><span class="theme-swatch cosmos"></span><span><b>سماء ليلية</b><small>نجوم وجبال</small></span></button><button type="button" data-theme-pick="oasis"><span class="theme-swatch oasis"></span><span><b>واحة</b><small>بحيرة وعمق بصري</small></span></button></div>
           </div>
-          <a class="button secondary" href="./gallery.html">المعرض الأفقي ←</a><a class="button secondary" href="./list.html">القائمة العمودية ↓</a>
+          <a class="button secondary" href="./archive.html">أرشيف الأفكار · جميع العروض ←</a>
           <button type="button" class="button secondary" id="import-button">استيراد نسخة</button><button type="button" class="button secondary" id="export-button">تصدير نسخة</button><input type="file" accept="application/json,.json" id="import-file" hidden></div>
       </header>
       <section class="composer surface" aria-labelledby="capture-title">
@@ -45,7 +46,15 @@
         <h2 id="capture-title">ما الذي يدور في ذهنك؟</h2>
         <label for="idea-input" class="sr-only">نص الفكرة الخام</label>
         <textarea id="idea-input" maxlength="100000" placeholder="اكتب الفكرة كما تأتيك... حتى لو كانت غير مكتملة، متناقضة، أو مجرد سؤال. لن نغيّر كلمة واحدة." rows="5" spellcheck="false"></textarea>
-        <div class="composer-footer"><div class="immutable-info">◈ يُحفَظ النص حرفيًا عند الضغط على «احفظ الفكرة». لا يمكن تعديله لاحقًا.</div><div class="composer-controls"><span id="char-count">0 حرف</span><button type="button" class="button primary" id="save-button">+ احفظ الفكرة</button></div></div>
+        <div class="voice-row"><button type="button" class="button secondary" id="dictate-button" aria-pressed="false">🎙 بدء الإملاء</button><span id="dictate-status" role="status" aria-live="polite">الإملاء اختياري؛ قد يعالج متصفحك الصوت عبر خدمة خارجية. راجع النص قبل الحفظ.</span></div>
+        <div class="composer-footer"><div class="immutable-info">◈ يُحفَظ النص الأصلي حرفيًا، وأي تعديل لاحق يُنشئ مراجعة مستقلة لا تمحو الأصل.</div><div class="composer-controls"><span id="char-count">0 حرف</span><button type="button" class="button primary" id="save-button">+ احفظ الفكرة</button></div></div>
+      </section>
+      <section class="organizer surface" id="personal-organizer" aria-label="تصنيفات ومجلدات شخصية اختيارية">
+        <details><summary>تنظيم شخصي اختياري — إنشاء تصنيف أو مجلد</summary>
+          <p class="muted">التصنيف الآلي هو الوضع الافتراضي، والمجلدات والتصنيفات الشخصية لا تغيّر الأصل.</p>
+          <div class="collection-form"><label>نوع التنظيم<select id="collection-type"><option value="category">تصنيف شخصي</option><option value="folder">مجلد شخصي</option></select></label><label>الاسم<input type="text" id="collection-name" maxlength="70" placeholder="اكتب اسمًا واضحًا"></label><button class="button secondary" type="button" id="create-collection">+ إنشاء</button></div>
+          <div id="collection-status" aria-live="polite" class="muted"></div>
+        </details>
       </section>
       <section class="overview" aria-label="إحصاءات أفكارك">
         <div class="metric"><span class="metric-label">الأفكار المحفوظة</span><strong id="stat-total">0</strong><span class="metric-hint">نصوص أصلية محفوظة</span></div>
@@ -53,7 +62,7 @@
         <div class="metric"><span class="metric-label">الروابط المكتشفة</span><strong id="stat-links">0</strong><span class="metric-hint">تشابه الكلمات والمجالات</span></div>
       </section>
       <section class="library-section" aria-labelledby="library-title">
-        <div class="section-header"><div><span class="eyebrow">ARCHIVE / 02</span><h2 id="library-title">أرشيف الأفكار</h2></div><div class="search-wrap"><span aria-hidden="true">⌕</span><label for="search" class="sr-only">ابحث في الأفكار</label><input id="search" type="search" placeholder="ابحث في أفكارك…" autocomplete="off"></div></div>
+        <div class="section-header"><div><span class="eyebrow">ARCHIVE / 02</span><h2 id="library-title">أرشيف الأفكار <a class="archive-all-link" href="./archive.html">كل طرق العرض ←</a></h2></div><div class="search-wrap"><span aria-hidden="true">⌕</span><label for="search" class="sr-only">ابحث في الأفكار</label><input id="search" type="search" placeholder="ابحث في أفكارك…" autocomplete="off"></div></div>
         <div class="workspace-panels">
           <div class="list-panel surface"><div class="panel-heading"><span id="list-heading">كل الأفكار</span><span id="result-count" aria-live="polite">0</span></div><div id="ideas-list" class="ideas-list"></div></div>
           <article class="detail-panel surface" id="idea-detail" aria-live="polite"><div class="empty-detail"><div class="empty-symbol">✳</div><h3>مساحة جديدة للتفكير</h3><p>احفظ فكرةً في الأعلى، وستظهر هنا نسختها الأصلية وتصنيفها والآفاق المقترحة لتطويرها.</p></div></article>

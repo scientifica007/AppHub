@@ -1,11 +1,13 @@
 import { CATEGORIES, categoryName, deriveIndex, relatedIdeas, searchIdeas, suggestDirections } from './core.mjs';
-import { openDatabase, createIdea, readAll, saveAnnotation, exportArchive, importArchive, sha256 } from './store.mjs';
+import { openDatabase, createIdea, readAll, saveAnnotation, exportArchive, importArchive, sha256, createCollection, addComment, addRevision, moveToTrash } from './store.mjs';
 import { initTheme } from './theme.mjs';
 import { formatSavedAt, timestampDescription } from './time.mjs';
 import { initWorkspace } from './workspace.mjs';
+import { projectIdeas, personalCategoryName, folderName } from './model.mjs';
+import { installSpeech } from './speech.mjs';
 
 const $ = id => document.getElementById(id);
-const state = { db: null, entries: [], annotations: [], items: [], selectedId: null, view: 'all', category: 'all', query: '', invalidIds: new Set() };
+const state = { db: null, entries: [], annotations: [], items: [], selectedId: null, view: 'all', category: 'all', query: '', invalidIds: new Set(), collections:[], snapshot:null };
 const element = (tag, className = '', text = '') => {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -21,12 +23,11 @@ function message(value, isError=false) {
 }
 async function refresh() {
   const snapshot=await readAll(state.db);
-  state.entries=snapshot.entries;
-  state.annotations=snapshot.annotations;
-  const meta=new Map(snapshot.annotations.map(a=>[a.id,a]));
-  state.items=snapshot.entries.map(e=>deriveIndex(e,meta.get(e.id)));
+  state.snapshot=snapshot;state.entries=snapshot.entries;state.annotations=snapshot.annotations;state.collections=snapshot.collections;
+  state.items=projectIdeas(snapshot);
   state.invalidIds=new Set();
   for (const e of snapshot.entries) if (await sha256(e.raw) !== e.checksum) state.invalidIds.add(e.id);
+  for (const v of snapshot.revisions) if (await sha256(v.raw) !== v.checksum) state.invalidIds.add(v.ideaId);
   if (state.invalidIds.size) message('تحذير: بصمة محتوى واحدة على الأقل لا تطابق أصلها المحفوظ.',true);
   render();
 }
@@ -93,10 +94,11 @@ function renderDetail() {
   starred.addEventListener('click',()=>changeAnnotation(idea,{favorite:!idea.favorite}));
   top.append(marker,starred);host.append(top);
   host.append(element('h3','detail-title',idea.title));
-  host.append(element('p','detail-date',`تاريخ ووقت الالتقاط: ${titleFormat(idea.createdAt)} · محفوظة دون تعديل`));
+  host.append(element('p','detail-date',`التقاط الأصل: ${titleFormat(idea.createdAt)}${idea.editedAt?` · آخر مراجعة: ${titleFormat(idea.editedAt)}`:''}`));
   const rawBox=element('section','raw-box');
-  append(rawBox,element('div','block-heading','النص الأصلي كما كُتب'),element('pre','raw-text',idea.raw));
-  rawBox.append(element('div','immutable-caption','◈ نسخة أصلية للقراءة فقط — دون تصحيح أو إعادة صياغة'));
+  append(rawBox,element('div','block-heading',idea.revisionCount?'النص الحالي · مراجعة محفوظة':'النص الأصلي كما كُتب'),element('pre','raw-text',idea.raw));
+  rawBox.append(element('div','immutable-caption','◈ كل تعديل يُسجّل مراجعة جديدة، والأصل محفوظ دون استبدال'));
+  if(idea.revisionCount){const original=element('details','original-history');original.append(element('summary','','عرض النص الأصلي وسجل المراجعات'),element('pre','raw-text',idea.originalRaw));for(const r of idea.revisions){const historic=element('details','history-revision');historic.append(element('summary','',`المراجعة ${r.number} · ${titleFormat(r.createdAt)}`),element('pre','raw-text',r.raw));original.append(historic);}rawBox.append(original);}
   host.append(rawBox);
   if(state.invalidIds.has(idea.id)) host.append(element('p','integrity-banner','تنبيه: بصمة سلامة النص لا تطابق النسخة المحفوظة. صدّر نسخة احتياطية وافحص البيانات.'));
   const analysis=element('section','analysis-block');analysis.append(element('div','block-heading','التنظيم الآلي · طبقة مستقلة'));
@@ -115,6 +117,16 @@ function renderDetail() {
   analysis.append(tags);
   analysis.append(element('p','analysis-note','تصنيف أولي قائم على قواعد وكلمات مفتاحية محلية؛ قابل للتصحيح، ولا يستعمل نموذج ذكاء اصطناعي خارجيًا.'));
   host.append(analysis);
+  const personal=element('section','analysis-block');personal.append(element('div','block-heading','تنظيم شخصي اختياري'));
+  for(const [field,type,title] of [['customCategoryId','category','تصنيف شخصي'],['folderId','folder','مجلد شخصي']]){
+    const row=element('div','category-row');const label=element('label','field-label',title);const select=element('select','category-select');
+    select.id=`personal-${field}`;label.htmlFor=select.id;
+    const empty=element('option','',field==='customCategoryId'?'التصنيف الآلي (افتراضي)':'دون مجلد (افتراضي)');empty.value='';select.append(empty);
+    for(const c of state.collections.filter(x=>x.type===type)){const opt=element('option','',c.name);opt.value=c.id;select.append(opt);}
+    select.value=idea[field]||'';select.addEventListener('change',()=>changeAnnotation(idea,{[field]:select.value}));
+    row.append(label,select);personal.append(row);
+  }
+  host.append(personal);
   const directions=element('section','directions');directions.append(element('div','block-heading','آفاق وأسئلة لتطوير الفكرة'));
   for(const [idx,direction] of suggestDirections(idea).entries()) {
     const block=element('div','direction');block.append(element('span','direction-number',`0${idx+1}`));
@@ -135,6 +147,26 @@ function renderDetail() {
   const textarea=element('textarea','notes-input');textarea.id='idea-note';textarea.rows=3;textarea.maxLength=20000;textarea.placeholder='اكتب ملاحظاتك أو قراراتك اللاحقة هنا. لن تتغير الفكرة الأصلية.';textarea.value=idea.note;
   const save=element('button','button secondary small','احفظ الملاحظات');save.type='button';save.addEventListener('click',()=>changeAnnotation(idea,{note:textarea.value}));
   notes.append(noteLabel,textarea,save);host.append(notes);
+  const comments=element('section','notes-block');comments.append(element('div','block-heading',`تعقيباتي · ${idea.comments.length}`));
+  for(const c of idea.comments){const item=element('div','comment-item');item.append(element('time','muted',titleFormat(c.createdAt)),element('p','',c.text));comments.append(item);}
+  const commentInput=element('textarea','notes-input');commentInput.rows=2;commentInput.maxLength=20000;commentInput.placeholder='تعقيب جديد مستقل عن الفكرة والمراجعات…';
+  const commentBtn=element('button','button secondary small','أضف التعقيب');commentBtn.type='button';
+  commentBtn.addEventListener('click',async()=>{try{await addComment(state.db,idea.id,commentInput.value);await refresh();message('حُفظ التعقيب دون تعديل الفكرة.');}catch(e){message(e.message,true);}});
+  comments.append(commentInput,commentBtn);host.append(comments);
+  const changes=element('section','notes-block');changes.append(element('div','block-heading','تعديل محمي بنظام المراجعات'));
+  const disclosure=element('details','edit-disclosure');disclosure.append(element('summary','','فتح محرر مراجعة جديدة'));
+  const editor=element('textarea','notes-input');editor.rows=5;editor.maxLength=100000;editor.value=idea.raw;editor.dir='auto';
+  const explanation=element('p','muted','لا يُستبدل النص الأصلي. سيُحفظ التعديل كمراجعة جديدة بعد تأكيد صريح.');
+  const editSave=element('button','button secondary small','حفظ مراجعة جديدة');editSave.type='button';
+  editSave.addEventListener('click',async()=>{
+    if(!globalThis.confirm('هل تؤكد حفظ نسخة معدّلة جديدة؟ ستبقى الصيغة الأصلية وكل المراجعات السابقة محفوظة.'))return;
+    try{await addRevision(state.db,idea.id,editor.value);await refresh();message('حُفظت المراجعة الجديدة وبقي الأصل محفوظًا.');}catch(e){message(e.message,true);}
+  });disclosure.append(explanation,editor,editSave);changes.append(disclosure);host.append(changes);
+  const remove=element('button','button secondary danger-action','نقل الفكرة إلى سلة المهملات');remove.type='button';
+  remove.addEventListener('click',async()=>{
+    if(!globalThis.confirm('نقل الفكرة إلى سلة المهملات؟ ستبقى قابلة للاستعادة ولن تُحذف نهائيًا.'))return;
+    try{await moveToTrash(state.db,idea.id);state.selectedId=null;await refresh();message('نُقلت الفكرة إلى السلة ويمكن استعادتها من الأرشيف.');}catch(e){message(e.message,true);}
+  });host.append(remove);
 }
 async function changeAnnotation(idea,changes) {
   try { await saveAnnotation(state.db,idea.id,changes);await refresh();state.selectedId=idea.id;render();message('حُفظت البيانات المشتقة دون تعديل النص الأصلي.'); }
@@ -170,6 +202,8 @@ async function handleImport(file) {
 }
 function bindEvents() {
   $('idea-input').addEventListener('input',updateCharCount);
+  installSpeech({input:$('idea-input'),button:$('dictate-button'),status:$('dictate-status'),onInput:updateCharCount,onState:active=>{$('save-button').disabled=active;}});
+  $('create-collection').addEventListener('click',async()=>{try{const item=await createCollection(state.db,$('collection-type').value,$('collection-name').value);$('collection-name').value='';await refresh();$('collection-status').textContent=`تم إنشاء: ${item.name}`;message('أُضيف التنظيم الشخصي دون تغيير التصنيف الافتراضي.');}catch(e){message(e.message,true);}});
   $('save-button').addEventListener('click',saveNewIdea);
   $('search').addEventListener('input',event=>{state.query=event.target.value;render();});
   document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>setView(button.dataset.view)));

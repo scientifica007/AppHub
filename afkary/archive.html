@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#15181d"><meta name="description" content="أرشيف أفكاري: عرض أفقي أو عمودي أو شبكي وسلة المهملات."><title>أرشيف أفكاري — جميع طرق العرض</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg"><link rel="stylesheet" href="./styles.css"><script type="module" src="./src/archive.mjs"></script></head>
+<body class="gallery-page archive-page">
+<a class="skip-link" href="#archive-results">انتقل إلى الأفكار</a>
+<div class="gallery-shell"><header class="gallery-header">
+ <a class="gallery-brand" href="./index.html"><span class="brand-symbol" aria-hidden="true">✳</span><span><strong>أفكاري</strong><small>الأرشيف الموحد</small></span></a>
+ <nav class="gallery-menu" aria-label="التنقل"><a href="./index.html">مساحة الالتقاط</a><a aria-current="page" href="./archive.html">أرشيف الأفكار</a></nav>
+ <div class="gallery-header-actions"><div class="theme-holder"><button id="theme-toggle" class="button secondary theme-toggle" type="button" aria-expanded="false" aria-controls="theme-picker">◐ الثيمات</button><div class="theme-picker" id="theme-picker" hidden><span class="theme-picker-title">اختر المظهر</span>
+ <button type="button" data-theme-pick="charcoal"><span class="theme-swatch charcoal"></span>فحمي</button><button type="button" data-theme-pick="paper"><span class="theme-swatch paper"></span>ورقي</button><button type="button" data-theme-pick="twilight"><span class="theme-swatch twilight"></span>شفق</button><button type="button" data-theme-pick="cosmos"><span class="theme-swatch cosmos"></span>سماء ليلية</button><button type="button" data-theme-pick="oasis"><span class="theme-swatch oasis"></span>واحة</button></div></div>
+ <a href="https://scientifica007.github.io/AppHub/" class="back-to-hub">AppHub ↗</a></div></header>
+<main class="gallery-content"><div class="gallery-intro"><div class="eyebrow">IDEAS / ARCHIVE</div><h1>أرشيف الأفكار</h1><p>ثلاث طرق عرض للمحتوى نفسه، وتصنيفات آلية وشخصية اختيارية، وسلة استعادة آمنة.</p></div>
+<section class="archive-toolbar surface" aria-label="طريقة العرض والتصفية">
+ <div class="archive-view-switch" role="group" aria-label="طريقة العرض"><button id="view-horizontal" type="button" data-layout="horizontal" aria-pressed="false">▱ أفقي</button><button id="view-vertical" type="button" data-layout="vertical" aria-pressed="false">☷ عمودي</button><button id="view-grid" type="button" data-layout="grid" aria-pressed="false">▦ مربعات</button></div>
+ <div class="archive-view-switch" role="group" aria-label="الأفكار وسلة المهملات"><button id="show-active" type="button" data-scope="active" aria-pressed="true">الأفكار</button><button id="show-trash" type="button" data-scope="trash" aria-pressed="false">سلة المهملات <span id="trash-count">0</span></button></div>
+ <div class="archive-filters">
+ <label>الترتيب<select id="archive-sort"><option value="newest">الأحدث أولًا</option><option value="oldest">الأقدم أولًا</option><option value="alphabetical">أبجديًا: أ ← ي</option><option value="alphabetical-desc">أبجديًا: ي ← أ</option><option value="category">حسب التصنيف الآلي</option></select></label>
+ <label>التصنيف الآلي<select id="archive-category"><option value="all">جميع المجالات</option></select></label>
+ <label>التصنيف الشخصي<select id="archive-custom"><option value="all">جميع التصنيفات</option></select></label>
+ <label>المجلد<select id="archive-folder"><option value="all">جميع المجلدات</option></select></label>
+ <label class="archive-search">بحث<input id="archive-search" type="search" placeholder="ابحث في أفكارك…"></label>
+ </div></section>
+<section class="archive-results-section" aria-labelledby="archive-results-title"><div class="gallery-stage-head"><div><h2 id="archive-results-title">أفكاري</h2><p id="archive-count" aria-live="polite">جارٍ التحميل…</p></div><div class="gallery-arrows" id="archive-arrows"><button id="archive-prev" type="button" aria-label="التمرير إلى اليمين">→</button><button id="archive-next" type="button" aria-label="التمرير إلى اليسار">←</button></div></div>
+ <div id="archive-results" class="archive-results layout-horizontal" role="region" tabindex="0" aria-label="الأفكار المحفوظة"></div>
+ <p class="gallery-hint" id="archive-help">يمكنك تمرير الأفكار أفقيًا، أو اختيار العرض العمودي أو المربعات.</p></section>
+</main><footer class="gallery-footer">أفكاري · الأصول والمراجعات والتعليقات محفوظة محليًا في متصفحك.</footer></div>
+<dialog id="archive-dialog" class="idea-modal" aria-labelledby="archive-modal-title"><div class="modal-top"><span class="eyebrow">الفكرة والتفاصيل</span><button id="archive-close" type="button" aria-label="إغلاق التفاصيل">×</button></div>
+ <h2 id="archive-modal-title"></h2><p class="muted" id="archive-modal-date"></p><pre id="archive-modal-raw" class="modal-raw"></pre><div id="archive-modal-tags" class="modal-tags"></div><p id="archive-modal-original" class="muted"></p>
+ <div id="archive-dialog-actions" class="archive-dialog-actions"></div><a id="archive-open-editor" class="button secondary" href="./index.html">فتح التعليقات والتعديلات ←</a>
+</dialog><div id="archive-toast" class="toast" role="status" aria-live="polite"></div>
+</body></html>
