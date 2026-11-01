@@ -1,5 +1,6 @@
 import { CATEGORIES, categoryName, deriveIndex, relatedIdeas, searchIdeas, suggestDirections } from './core.mjs';
 import { openDatabase, createIdea, readAll, saveAnnotation, exportArchive, importArchive, sha256 } from './store.mjs';
+import { initTheme } from './theme.mjs';
 
 const $ = id => document.getElementById(id);
 const state = { db: null, entries: [], annotations: [], items: [], selectedId: null, view: 'all', category: 'all', query: '', invalidIds: new Set() };
@@ -181,10 +182,13 @@ function bindEvents() {
   });
 }
 async function start() {
+  initTheme();
   bindEvents();
   try {
     state.db=await openDatabase();
     await refresh();
+    const requested = new URLSearchParams(location.search).get('idea');
+    if (requested && state.items.some(x => x.id===requested)) { state.view='all';state.category='all';state.selectedId=requested;render(); }
   }catch(e){
     for(const id of ['save-button','export-button','import-button']) $(id).disabled=true;
     message(`تعذر تشغيل التخزين المحلي: ${e.message}`,true);

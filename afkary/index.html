@@ -20,6 +20,7 @@
         <button class="nav-link active" type="button" data-view="all"><span class="nav-icon">▤</span> كل الأفكار <span id="nav-all-count" class="nav-count">0</span></button>
         <button class="nav-link" type="button" data-view="favorites"><span class="nav-icon">☆</span> المميّزة</button>
         <button class="nav-link" type="button" data-view="connected"><span class="nav-icon">⤨</span> أفكار مترابطة</button>
+        <a class="nav-link" href="./gallery.html"><span class="nav-icon">▰</span> المعرض الأفقي <span class="nav-icon">↗</span></a>
       </nav>
       <div class="sidebar-group-label topics-heading">الموضوعات المستنتجة</div>
       <nav class="topic-nav" id="topic-nav" aria-label="تصفية حسب الموضوع"></nav>
@@ -31,7 +32,12 @@
     <main class="main-content">
       <header class="page-header">
         <div><div class="eyebrow">WORKSPACE / 01</div><h1>كل فكرة تستحق أن تُحفظ.</h1><p>اكتب دون ترتيب أو تنقيح. سنترك الأصل كما هو، وننظّم ما حوله.</p></div>
-        <div class="header-actions"><button type="button" class="button secondary" id="import-button">استيراد نسخة</button><button type="button" class="button secondary" id="export-button">تصدير نسخة</button><input type="file" accept="application/json,.json" id="import-file" hidden></div>
+        <div class="header-actions">
+          <div class="theme-holder"><button type="button" class="button secondary theme-toggle" id="theme-toggle" aria-expanded="false" aria-controls="theme-picker">◐ الثيمات</button>
+            <div class="theme-picker" id="theme-picker" hidden><span class="theme-picker-title">المظهر والخلفيات</span><button type="button" data-theme-pick="charcoal"><span class="theme-swatch charcoal"></span><span><b>فحمي</b><small>هدوء وتركيز</small></span></button><button type="button" data-theme-pick="paper"><span class="theme-swatch paper"></span><span><b>ورقي</b><small>سطح مضيء للقراءة</small></span></button><button type="button" data-theme-pick="twilight"><span class="theme-swatch twilight"></span><span><b>شفق</b><small>آفاق صحراوية</small></span></button><button type="button" data-theme-pick="cosmos"><span class="theme-swatch cosmos"></span><span><b>سماء ليلية</b><small>نجوم وجبال</small></span></button><button type="button" data-theme-pick="oasis"><span class="theme-swatch oasis"></span><span><b>واحة</b><small>بحيرة وعمق بصري</small></span></button></div>
+          </div>
+          <a class="button secondary" href="./gallery.html">المعرض الأفقي ←</a>
+          <button type="button" class="button secondary" id="import-button">استيراد نسخة</button><button type="button" class="button secondary" id="export-button">تصدير نسخة</button><input type="file" accept="application/json,.json" id="import-file" hidden></div>
       </header>
       <section class="composer surface" aria-labelledby="capture-title">
         <div class="surface-label"><span class="accent-dot"></span> مساحة الالتقاط <span class="muted-label">01 / الفكرة الخام</span></div>

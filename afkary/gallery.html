@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101319">
+  <meta name="description" content="معرض الأفكار الأفقي — ترتيب زمني وأبجدي وتصنيفي لأفكارك الأصلية المحفوظة.">
+  <title>معرض أفكاري — مساحة الاستكشاف</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./src/gallery.mjs" type="module"></script>
+</head>
+<body class="gallery-page">
+  <a class="skip-link" href="#gallery-track">انتقل إلى الأفكار</a>
+  <div class="gallery-shell">
+    <header class="gallery-header">
+      <a class="gallery-brand" href="./index.html"><span class="brand-symbol" aria-hidden="true">✳</span><span><strong>أفكاري</strong><small>معرض الأفكار</small></span></a>
+      <nav class="gallery-menu" aria-label="التنقل بين الصفحات">
+        <a href="./index.html">مساحة الالتقاط</a><a aria-current="page" href="./gallery.html">المعرض الأفقي</a>
+      </nav>
+      <div class="gallery-header-actions">
+        <div class="theme-holder"><button type="button" class="button secondary theme-toggle" id="theme-toggle" aria-expanded="false" aria-controls="theme-picker">◐ تغيير الثيمة</button>
+          <div class="theme-picker" id="theme-picker" hidden><span class="theme-picker-title">المظهر والخلفيات</span><button type="button" data-theme-pick="charcoal"><span class="theme-swatch charcoal"></span><span><b>فحمي</b><small>هدوء وتركيز</small></span></button><button type="button" data-theme-pick="paper"><span class="theme-swatch paper"></span><span><b>ورقي</b><small>سطح مضيء للقراءة</small></span></button><button type="button" data-theme-pick="twilight"><span class="theme-swatch twilight"></span><span><b>شفق</b><small>آفاق صحراوية</small></span></button><button type="button" data-theme-pick="cosmos"><span class="theme-swatch cosmos"></span><span><b>سماء ليلية</b><small>نجوم وجبال</small></span></button><button type="button" data-theme-pick="oasis"><span class="theme-swatch oasis"></span><span><b>واحة</b><small>بحيرة وعمق بصري</small></span></button></div>
+        </div>
+        <a class="back-to-hub" href="https://scientifica007.github.io/AppHub/">AppHub ↗</a>
+      </div>
+    </header>
+    <main class="gallery-content">
+      <div class="gallery-intro"><div class="eyebrow">IDEAS / HORIZONTAL EXPLORER</div><h1>أفكارك، أمامك على امتداد الأفق.</h1><p>تصفّح الأصول المحفوظة دون تعديل، ورتّبها بالطريقة التي تساعدك على اكتشافها.</p></div>
+      <section class="gallery-tools surface" aria-label="الفرز والتصفية">
+        <label>الترتيب<select id="gallery-sort"><option value="newest">زمنيًا: الأحدث أولًا</option><option value="oldest">زمنيًا: الأقدم أولًا</option><option value="alphabetical">أبجديًا: أ ← ي</option><option value="alphabetical-desc">أبجديًا: ي ← أ</option><option value="category">حسب التصنيف</option></select></label>
+        <label>المجال<select id="gallery-filter"><option value="all">جميع المجالات</option></select></label>
+        <label class="gallery-search-label">البحث<input id="gallery-search" type="search" placeholder="ابحث في النصوص الأصلية…" autocomplete="off"></label>
+      </section>
+      <section class="gallery-stage" aria-labelledby="stage-title"><div class="gallery-stage-head"><div><h2 id="stage-title">المعرض الأفقي</h2><p id="gallery-count" aria-live="polite">جارٍ التحميل…</p></div><div class="gallery-arrows" aria-label="تحريك الأفكار أفقيًا"><button id="gallery-prev" type="button" aria-label="الفكرة السابقة">→</button><button id="gallery-next" type="button" aria-label="الفكرة التالية">←</button></div></div>
+        <div class="gallery-track" id="gallery-track" role="region" tabindex="0" aria-label="بطاقات الأفكار القابلة للتمرير أفقيًا"></div>
+        <p class="gallery-hint">مرّر أفقيًا بالفأرة أو لوحة اللمس أو اللمس؛ ويمكنك استعمال أسهم لوحة المفاتيح عند تحديد بطاقة. التصنيف والعناوين معروضان منفصلين عن النصوص الأصلية.</p>
+      </section>
+    </main>
+    <footer class="gallery-footer">أفكاري · لا يُغيّر أي فرز أو تصنيف النص الخام.</footer>
+  </div>
+  <dialog class="idea-modal" id="idea-dialog" aria-labelledby="modal-title"><div class="modal-top"><span class="eyebrow">النص الخام / للقراءة فقط</span><button type="button" id="close-dialog" aria-label="إغلاق التفاصيل">×</button></div><h2 id="modal-title"></h2><p id="modal-date" class="muted"></p><pre id="modal-raw" class="modal-raw"></pre><div class="modal-tags" id="modal-tags"></div><h3>أفكار ذات روابط لفظية</h3><div id="modal-links"></div><a id="open-in-workspace" class="button primary modal-open" href="./index.html">فتح التحليل والملاحظات ←</a></dialog>
+</body>
+</html>
