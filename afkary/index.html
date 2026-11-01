@@ -8,7 +8,7 @@
   <title>أفكاري — مساحة التفكير الحر</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="stylesheet" href="./styles.css">
-  <script src="./src/app.mjs" type="module"></script>
+  <script src="./src/app.mjs?v=0.4.1" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#idea-input">انتقل إلى تسجيل فكرة</a>
@@ -46,8 +46,11 @@
         <h2 id="capture-title">ما الذي يدور في ذهنك؟</h2>
         <label for="idea-input" class="sr-only">نص الفكرة الخام</label>
         <textarea id="idea-input" maxlength="100000" placeholder="اكتب الفكرة كما تأتيك... حتى لو كانت غير مكتملة، متناقضة، أو مجرد سؤال. لن نغيّر كلمة واحدة." rows="5" spellcheck="false"></textarea>
-        <div class="voice-row"><button type="button" class="button secondary" id="dictate-button" aria-pressed="false">🎙 بدء الإملاء</button><span id="dictate-status" role="status" aria-live="polite">الإملاء اختياري؛ قد يعالج متصفحك الصوت عبر خدمة خارجية. راجع النص قبل الحفظ.</span></div>
-        <div class="composer-footer"><div class="immutable-info">◈ يُحفَظ النص الأصلي حرفيًا، وأي تعديل لاحق يُنشئ مراجعة مستقلة لا تمحو الأصل.</div><div class="composer-controls"><span id="char-count">0 حرف</span><button type="button" class="button primary" id="save-button">+ احفظ الفكرة</button></div></div>
+        <div class="composer-footer">
+          <div class="voice-row"><button type="button" class="button secondary" id="dictate-button" aria-pressed="false">🎙 بدء الإملاء</button><span id="dictate-status" role="status" aria-live="polite">الإملاء اختياري؛ قد يستخدم متصفحك خدمة خارجية. راجع النص قبل الحفظ.</span></div>
+          <div class="composer-controls"><span id="char-count">0 حرف</span><button type="button" class="button primary" id="save-button">+ احفظ الفكرة</button></div>
+          <div class="immutable-info">◈ يُحفَظ النص الأصلي حرفيًا، وأي تعديل لاحق يُنشئ مراجعة مستقلة لا تمحو الأصل.</div>
+        </div>
       </section>
       <section class="organizer surface" id="personal-organizer" aria-label="تصنيفات ومجلدات شخصية اختيارية">
         <details><summary>تنظيم شخصي اختياري — إنشاء تصنيف أو مجلد</summary>

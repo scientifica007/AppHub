@@ -173,6 +173,7 @@ async function changeAnnotation(idea,changes) {
   catch(e){message(e.message||'تعذّر الحفظ.',true);}
 }
 async function saveNewIdea() {
+  if ($('dictate-button').getAttribute('aria-pressed')==='true') { message('أوقف الإملاء الصوتي أولًا ثم راجع النص قبل الحفظ.',true); return; }
   const button=$('save-button');const raw=$('idea-input').value;
   button.disabled=true;
   try {

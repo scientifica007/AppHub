@@ -85,3 +85,23 @@ body.focus-mode .organizer,body.focus-mode .voice-row #dictate-status{display:no
 @media(max-width:1100px){.archive-filters{grid-template-columns:repeat(3,minmax(140px,1fr))}}@media(max-width:660px){.archive-filters{grid-template-columns:1fr 1fr}.archive-search{grid-column:1/-1}.archive-toolbar{padding:13px}.archive-view-switch{margin:0 0 10px;display:flex}.archive-view-switch button{flex:1;min-width:0}.collection-form{flex-direction:column;align-items:stretch}.collection-form label{width:100%}}@media(max-width:410px){.archive-filters{grid-template-columns:1fr}.archive-search{grid-column:auto}}
 .history-revision{padding:10px;border-top:1px solid var(--line);margin-top:12px}.history-revision summary{cursor:pointer;color:var(--accent);font-size:12px}.history-revision pre{font-size:13px}
 .archive-comments{width:100%;border-top:1px solid var(--line);padding:12px 0;margin-top:12px}.archive-comments h3{margin:4px 0 14px}.archive-comments textarea{display:block;width:100%;min-height:80px;margin:12px 0}.archive-comments .edit-disclosure{margin-top:18px}.archive-comments .original-history{margin-top:18px}.archive-comments pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:250px;overflow-y:auto}
+
+/* 0.4.1: Single-line action row under the writing surface, on desktop and phones. */
+.composer-footer{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.composer-footer .voice-row{margin:0;flex:1 1 330px;min-width:0}
+.composer-footer .voice-row #dictate-status{min-width:130px}
+.composer-footer .composer-controls{margin:0 0 0 auto;gap:12px}
+.composer-footer .immutable-info{order:3;flex-basis:100%}
+body.focus-mode .workspace-toolbar{display:none!important}
+body.focus-mode .composer-footer{display:flex;flex-direction:row;justify-content:center;align-items:center;flex-wrap:nowrap;gap:clamp(6px,2vw,15px);margin-top:19px}
+body.focus-mode .composer-footer .voice-row{margin:0;flex:0 0 auto;min-width:0}
+body.focus-mode .composer-footer .composer-controls{display:flex;width:auto;flex:0 0 auto;margin:0;justify-content:center;gap:clamp(6px,2vw,15px);flex-wrap:nowrap}
+body.focus-mode #char-count{display:none!important}
+body.focus-mode #focus-toggle{white-space:nowrap;background:#fff!important;border:1px solid #dadce0!important;border-radius:20px!important;color:#5f6368!important;min-height:42px}
+body.focus-mode #dictate-button,body.focus-mode #save-button{white-space:nowrap;min-width:0!important;flex:none;padding:8px clamp(8px,1.5vw,16px);font-size:0!important}
+body.focus-mode #dictate-button::after{content:"إملاء";font-size:clamp(11px,2.7vw,13px)}
+body.focus-mode #dictate-button[aria-pressed="true"]::after{content:"إيقاف"}
+body.focus-mode #save-button::after{content:"حفظ الفكرة";font-size:clamp(11px,2.7vw,13px)}
+body.focus-mode #focus-toggle{font-size:13px;padding:8px clamp(8px,1.5vw,16px)}
+@media(max-width:540px){body.focus-mode .composer-footer{gap:5px}body.focus-mode #dictate-button,body.focus-mode #save-button,body.focus-mode #focus-toggle{padding:7px 6px;min-height:40px}.composer-footer .composer-controls{margin:0}}
+@media(max-width:370px){body.focus-mode #focus-toggle{font-size:11px;padding:7px 5px}body.focus-mode .composer-footer{gap:4px}body.focus-mode #dictate-button,body.focus-mode #save-button{padding:7px 6px}}

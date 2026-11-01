@@ -4,9 +4,13 @@ export function readPreference(storage,key,fallback=false){try{const v=storage.g
 export function initWorkspace(){
  const sidebar=document.getElementById('workspace-sidebar'),toggle=document.getElementById('sidebar-toggle'),focusButton=document.getElementById('focus-toggle');
  if(!sidebar||!toggle||!focusButton)return;
+ const toolbar=focusButton.parentElement,controls=document.querySelector('.composer-controls');
  let visible=readPreference(localStorage,SIDEBAR_KEY,true),focus=readPreference(localStorage,FOCUS_KEY,false);
  function save(key,v){try{localStorage.setItem(key,String(v));}catch{}}
  function update(){
+  // Move the same button; its event listeners and state survive reparenting.
+  if(focus&&controls&&focusButton.parentElement!==controls)controls.append(focusButton);
+  if(!focus&&toolbar&&focusButton.parentElement!==toolbar)toolbar.append(focusButton);
   const open=visible&&!focus;
   document.body.classList.toggle('sidebar-collapsed',!open);
   document.body.classList.toggle('focus-mode',focus);
@@ -15,7 +19,8 @@ export function initWorkspace(){
   toggle.setAttribute('aria-label',open?'إخفاء الشريط الجانبي':'إظهار الشريط الجانبي');
   toggle.textContent=open?'☰ إخفاء القائمة':'☰ إظهار القائمة';
   focusButton.setAttribute('aria-pressed',String(focus));
-  focusButton.textContent=focus?'✕ إنهاء عدم التشويش':'◯ عدم التشويش';
+  focusButton.textContent=focus?'✕ خروج':'◯ عدم التشويش';
+  focusButton.setAttribute('aria-label',focus?'إنهاء وضع عدم التشويش':'تفعيل وضع عدم التشويش');
   document.documentElement.style.colorScheme=focus?'light':(document.documentElement.dataset.theme==='paper'?'light':'dark');
  }
  toggle.addEventListener('click',()=>{visible=!visible;save(SIDEBAR_KEY,visible);update();});
