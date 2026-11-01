@@ -1,5 +1,5 @@
 import { CATEGORIES, categoryName, deriveIndex, normalizeArabic, relatedIdeas } from './core.mjs';
-import { orderIdeas } from './order.mjs';
+import { orderIdeas, firstSignificantLetter } from './order.mjs';
 import { openDatabase, readAll, sha256 } from './store.mjs';
 import { initTheme } from './theme.mjs';
 
@@ -31,9 +31,11 @@ function render() {
   const list=filtered(), host=$('gallery-track');host.replaceChildren();
   $('gallery-count').textContent=`${list.length} من ${state.items.length} فكرة`;
   if(!list.length){ const empty=el('div','gallery-empty');empty.append(el('h2','','لا توجد أفكار مطابقة'),el('p','','غيّر الفلتر أو أضف فكرة من مساحة الالتقاط.'));host.append(empty);return; }
-  let prevCategory=null;
+  let prevGroup=null;
+  const grouped = state.sort==='category' || state.sort.startsWith('alphabetical');
   for(const [i,idea] of list.entries()){
-    if(state.sort==='category' && idea.category!==prevCategory){host.append(el('div','gallery-divider',categoryName(idea.category)));prevCategory=idea.category;}
+    const group = state.sort==='category' ? categoryName(idea.category) : firstSignificantLetter(idea.title);
+    if(grouped && group!==prevGroup){host.append(el('div','gallery-divider',group));prevGroup=group;}
     host.append(buttonFor(idea,i));
   }
 }
