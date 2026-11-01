@@ -50,6 +50,26 @@
       "visible": true,
       "addedAt": "2026-10-22",
       "order": 0
+    },
+    {
+      "id": "afkary-idea-archive",
+      "title": "أفكاري — أرشيف الأفكار",
+      "description": "مساحة عربية لالتقاط الأفكار الخام وحفظها دون تغيير، ثم فهرستها وتصنيفها محليًا واكتشاف الروابط بينها واقتراح أسئلة لتطويرها.",
+      "category": "productivity",
+      "url": "https://scientifica007.github.io/Afkary/",
+      "status": "beta",
+      "icon": "sparkle",
+      "color": "sand",
+      "tags": [
+        "أفكار خام",
+        "فهرسة",
+        "تطوير الأفكار",
+        "خصوصية محلية"
+      ],
+      "featured": false,
+      "visible": true,
+      "addedAt": "2026-11-01",
+      "order": 1
     }
   ]
 }
