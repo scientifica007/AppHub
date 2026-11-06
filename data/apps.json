@@ -70,6 +70,26 @@
       "visible": true,
       "addedAt": "2026-11-01",
       "order": 1
+    },
+    {
+      "id": "arkad-games",
+      "title": "Arkad Games — صالة ألعاب الأركاد",
+      "description": "صالة ألعاب كلاسيكية باللغة العربية تضم ثلاث ألعاب قابلة للعب: غزاة الفضاء، وتحطيم الطوب، والمتاهة. تحكم بالحاسوب والهاتف وحفظ محلي لأعلى النتائج.",
+      "category": "games",
+      "url": "https://scientifica007.github.io/Arkad_Games/",
+      "status": "available",
+      "icon": "game",
+      "color": "purple",
+      "tags": [
+        "ألعاب أركاد",
+        "غزاة الفضاء",
+        "تحطيم الطوب",
+        "المتاهة"
+      ],
+      "featured": true,
+      "visible": true,
+      "addedAt": "2026-11-06",
+      "order": 2
     }
   ]
 }
